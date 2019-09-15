@@ -17,8 +17,12 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
+//    @Autowired
+//    ExternalConfig externalConfig;
+
     @GetMapping("/products")
     public List<Product> getAllProducts(){
+//        System.out.println(externalConfig.getName());
         return productRepository.findAll();
     }
 }
