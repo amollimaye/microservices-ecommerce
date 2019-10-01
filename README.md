@@ -5,7 +5,9 @@ A demo of microservices to be run on your local machine
 # Components
 ## consul
 Needs to be installed locally
-Refer [official doc](https://learn.hashicorp.com/consul/getting-started/ui) for how to install locally.\
+Refer [official doc](https://www.consul.io/docs/install/index.html#precompiled-binaries) for how to install locally.\
+The consul UI can be used to view service status and configure properties.
+*http://localhost:8500*
 Below 3 microservices use consul for **external config** and **service discovery**
 ## ecommerce-service 
 Main service that lists ecommerce products through RESTful endpoint.
