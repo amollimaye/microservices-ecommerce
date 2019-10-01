@@ -1,12 +1,10 @@
 package com.amol.microservices.product.controller;
 
-import com.amol.microservices.product.entity.Product;
+import com.amol.microservices.product.entity.ProductResponse;
 import com.amol.microservices.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author Amol Limaye
@@ -21,8 +19,8 @@ public class ProductController {
 //    ExternalConfig externalConfig;
 
     @GetMapping("/products")
-    public List<Product> getAllProducts(){
+    public ProductResponse getAllProducts(){
 //        System.out.println(externalConfig.getName());
-        return productRepository.findAll();
+        return new ProductResponse(productRepository.findAll());
     }
 }

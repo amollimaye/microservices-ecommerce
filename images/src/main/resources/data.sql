@@ -1,4 +1,4 @@
-INSERT INTO images (product_id,image) VALUES
+INSERT INTO image (product_id,path) VALUES
 (100,'https://picsum.photos/200'),
 (101,'https://picsum.photos/201'),
 (102,'https://picsum.photos/202'),

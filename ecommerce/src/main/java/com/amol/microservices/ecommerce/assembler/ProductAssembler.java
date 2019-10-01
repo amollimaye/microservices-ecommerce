@@ -1,16 +1,16 @@
 package com.amol.microservices.ecommerce.assembler;
 
-import com.amol.microservices.ecommerce.entity.EcommerceProduct;
-import com.amol.microservices.ecommerce.entity.Product;
+import com.amol.microservices.ecommerce.config.ExternalConfig;
+import com.amol.microservices.ecommerce.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,38 +25,43 @@ public class ProductAssembler {
     @Autowired
     RestTemplate restTemplate;
 
-    private static final String PRODUCT_SERVICE_ID = "/product-service";
-    private static final String PRODUCT_SERVICE_ENDPOINT = "/products";
+    @Autowired
+    ExternalConfig externalConfig;
+
+    private static final String PRODUCT_SERVICE_ID = "product-service";
+    private static final String PRODUCT_SERVICE_ENDPOINT = "/product-service/products";
 
     private static final String IMAGE_SERVICE_ID = "image-service";
+    private static final String IMAGE_SERVICE_ENDPOINT = "/image-service/images";
 
     public List<EcommerceProduct> getEcommerceProducts(){
-        restTemplate.getForObject(getProductServiceURL(), Product.class);
-        return null;
-    }
-
-    private String getProductServiceURL(){
-        return getServiceUrl(PRODUCT_SERVICE_ID);
-    }
-
-    private String getServiceUrl(String serviceId) {
-        List<ServiceInstance> list = discoveryClient.getInstances(serviceId);
-        if (list != null && list.size() > 0 ) {
-            URI uri =  list.get(0).getUri();
-            return "http://"+uri.getHost() +
-                    ":" +uri.getPort()
-                    +list.get(0).getMetadata().get("contextPath")+
-                    PRODUCT_SERVICE_ENDPOINT;
+        ResponseEntity<ProductResponse> productResponse = restTemplate.exchange(getServiceURI(PRODUCT_SERVICE_ID,PRODUCT_SERVICE_ENDPOINT), HttpMethod.GET,null,ProductResponse.class);
+        ResponseEntity<ImageResponse> imageResponse = null;
+        if(externalConfig.getUseImages()) {
+            imageResponse = restTemplate.exchange(getServiceURI(IMAGE_SERVICE_ID, IMAGE_SERVICE_ENDPOINT), HttpMethod.GET, null, ImageResponse.class);
         }
-
-        return null;
+        return mergeProductData(productResponse,imageResponse);
     }
 
-//    public Optional<URI> serviceUrl() {
-//        return discoveryClient.getInstances("myApp")
-//                .stream()
-//                .map(si -> si.getUri());
-//          .findFirst()
-//    }
+    private URI getServiceURI(String serviceId,String serviceEndpoint) {
+        URI uri = discoveryClient.getInstances(serviceId).stream().map
+                (instance -> instance.getUri()).findFirst()
+                .map(s -> s.resolve(serviceEndpoint)).get();
+        return uri;
+    }
 
+    private List<EcommerceProduct> mergeProductData(ResponseEntity<ProductResponse> productResponse, ResponseEntity<ImageResponse> imageResponse){
+        List<EcommerceProduct> ecommerceProducts = new ArrayList<>();
+        for(Product product:productResponse.getBody().getProducts()){
+            EcommerceProduct ecommerceProduct = new EcommerceProduct(product);
+            if(imageResponse!=null) {
+                Image image = imageResponse.getBody().getImages().
+                        stream().filter(i -> product.getProductId() == i.getProductId())
+                        .findAny().orElse(null);
+                ecommerceProduct.setImage(image);
+            }
+            ecommerceProducts.add(ecommerceProduct);
+        }
+        return ecommerceProducts;
+    }
 }

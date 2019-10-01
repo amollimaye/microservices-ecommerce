@@ -9,14 +9,14 @@ import javax.persistence.Id;
  * @author Amol Limaye
  **/
 @Entity
-public class Images {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
     private int productId;
 
-    private String image;
+    private String path;
 
     public Long getId() {
         return Id;
@@ -34,11 +34,11 @@ public class Images {
         this.productId = productId;
     }
 
-    public String getImage() {
-        return image;
+    public String getPath() {
+        return path;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setPath(String path) {
+        this.path = path;
     }
 }

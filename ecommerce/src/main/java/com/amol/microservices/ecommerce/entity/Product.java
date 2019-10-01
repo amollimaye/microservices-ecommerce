@@ -1,8 +1,11 @@
 package com.amol.microservices.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author Amol Limaye
  **/
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product {
 
     private Long id;

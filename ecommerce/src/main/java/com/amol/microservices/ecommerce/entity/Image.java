@@ -1,21 +1,24 @@
 package com.amol.microservices.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author Amol Limaye
  **/
-public class Images {
-    private Long Id;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Image {
+    private Long id;
 
     private int productId;
 
-    private String image;
+    private String path;
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        id = id;
     }
 
     public int getProductId() {
@@ -26,11 +29,11 @@ public class Images {
         this.productId = productId;
     }
 
-    public String getImage() {
-        return image;
+    public String getPath() {
+        return path;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setPath(String path) {
+        this.path = path;
     }
 }

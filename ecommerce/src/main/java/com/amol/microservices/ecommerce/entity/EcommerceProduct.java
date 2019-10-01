@@ -1,13 +1,16 @@
 package com.amol.microservices.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author Amol Limaye
  **/
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EcommerceProduct {
 
     Product product;
 
-    Images images;
+    Image image;
 
     public EcommerceProduct(Product product){
         this.product = product;
@@ -21,12 +24,12 @@ public class EcommerceProduct {
         this.product = product;
     }
 
-    public Images getImages() {
-        return images;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImages(Images images) {
-        this.images = images;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
 }
