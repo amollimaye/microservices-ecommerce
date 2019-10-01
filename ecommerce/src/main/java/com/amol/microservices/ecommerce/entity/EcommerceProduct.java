@@ -10,7 +10,7 @@ public class EcommerceProduct {
 
     Product product;
 
-    Image image;
+    String image;
 
     public EcommerceProduct(Product product){
         this.product = product;
@@ -24,11 +24,11 @@ public class EcommerceProduct {
         this.product = product;
     }
 
-    public Image getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

@@ -11,14 +11,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExternalConfig {
 
+    //To add this property in consul UI, add it as config/ecommerce-service/useImages
+    //and add its value as true
+
     @Value("${useImages}")
     private String useImages;
 
-    public ExternalConfig(){
-        System.out.println(this.useImages);
-    }
     public boolean getUseImages() {
-        return Boolean.getBoolean(useImages);
+        return Boolean.parseBoolean(useImages);
     }
 
     public void setUseImages(String useImages) {

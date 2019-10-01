@@ -7,19 +7,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Image {
-    private Long id;
 
     private int productId;
 
     private String path;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        id = id;
-    }
 
     public int getProductId() {
         return productId;

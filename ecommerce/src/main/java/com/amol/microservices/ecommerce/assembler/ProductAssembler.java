@@ -23,10 +23,10 @@ public class ProductAssembler {
     private DiscoveryClient discoveryClient;
 
     @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     @Autowired
-    ExternalConfig externalConfig;
+    private ExternalConfig externalConfig;
 
     private static final String PRODUCT_SERVICE_ID = "product-service";
     private static final String PRODUCT_SERVICE_ENDPOINT = "/product-service/products";
@@ -58,7 +58,7 @@ public class ProductAssembler {
                 Image image = imageResponse.getBody().getImages().
                         stream().filter(i -> product.getProductId() == i.getProductId())
                         .findAny().orElse(null);
-                ecommerceProduct.setImage(image);
+                ecommerceProduct.setImage(image.getPath());
             }
             ecommerceProducts.add(ecommerceProduct);
         }
