@@ -11,13 +11,13 @@ The consul UI can be used to view service status and configure properties.
 `http://localhost:8500`
 
 Below 3 microservices use consul for **external config** and **service discovery**
-## ecommerce-service 
+## Ecommerce service 
 Main service that lists ecommerce products through RESTful endpoint.
 `http://localhost:9080/ecommerce-service/ecommerceProducts`
 
 * Add property key as 
 ```
-config/ecommerce-service/useImages
+config/ecommerceApp/useImages
 ```
 and value as true.
 * Data is stored in H2 in memory database.

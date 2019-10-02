@@ -1,4 +1,4 @@
-package com.amol.microservices.ecommerce;
+package com.amol.microservices.ecommerce.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 public class ServiceConfiguration {
 
     @Bean
+    @LoadBalanced
     public RestTemplate loadBalancedRestTemplate() {
         return new RestTemplate();
     }
